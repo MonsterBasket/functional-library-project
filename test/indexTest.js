@@ -14,12 +14,12 @@ describe("index.js", function () {
     const spy = chai.spy((x) => true);
 
     it("calls alert with each element passed", function () {
-      myEach(testArr, alert);
+      fi.myEach(testArr, alert);
       expect(alert).to.have.been.called.exactly(testArr.length);
     });
 
     it("calls alert properly on object values", function () {
-      myEach(testObj, spy);
+      fi.myEach(testObj, spy);
       const objValues = Object.values(testObj);
       objValues.forEach((val) => {
         expect(spy).to.have.been.called.with(val);
@@ -27,7 +27,7 @@ describe("index.js", function () {
     });
 
     it("returns the original collection", function () {
-      const result = myEach(testObj, spy);
+      const result = fi.myEach(testObj, spy);
       expect(testObj === result).to.equal(true);
       expect(objectsEqual(testObj, result)).to.equal(true);
     });
@@ -39,7 +39,7 @@ describe("index.js", function () {
     const callback = (x) => x * 3;
 
     it("successfully returns a correctly populated array", function () {
-      const arrResult = myMap(testArr, callback);
+      const arrResult = fi.myMap(testArr, callback);
       expect(arraysEqual([3, 6, 9, 12], arrResult)).to.equal(true);
     });
 
@@ -48,7 +48,7 @@ describe("index.js", function () {
     });
 
     it("successfully returns a correctly populated array from modified object values", function () {
-      const objResult = myMap(testObj, callback);
+      const objResult = fi.myMap(testObj, callback);
       expect(arraysEqual([3, 6, 9, 12], objResult)).to.equal(true);
     });
 
@@ -63,12 +63,12 @@ describe("index.js", function () {
     const callback = (acc, val, collection) => acc + val * 3;
 
     it("returns the correct reduced value when passed an initial value", function () {
-      const reduceWithAcc = myReduce(testArr, callback, 10);
+      const reduceWithAcc = fi.myReduce(testArr, callback, 10);
       expect(reduceWithAcc).to.equal(40);
     });
 
     it("returns the correct reduced value when not passed an initial value", function () {
-      const reduceSansAcc = myReduce(testArr, callback);
+      const reduceSansAcc = fi.myReduce(testArr, callback);
       expect(reduceSansAcc).to.equal(28);
     });
 
@@ -77,7 +77,7 @@ describe("index.js", function () {
     });
 
     it("returns the correct reduced value from object values", function () {
-      const objResult = myReduce(testObj, callback);
+      const objResult = fi.myReduce(testObj, callback);
       expect(objResult).to.equal(28);
     });
 
@@ -106,25 +106,25 @@ describe("index.js", function () {
     const objArr = [{ a: "a" }, objB];
 
     it("returns the value if found", function () {
-      expect(myFind(intArr, findCBGenerator(4))).to.equal(4);
-      expect(myFind(strArr, findCBGenerator("waychillgoldeneye"))).to.equal(
+      expect(fi.myFind(intArr, findCBGenerator(4))).to.equal(4);
+      expect(fi.myFind(strArr, findCBGenerator("waychillgoldeneye"))).to.equal(
         "waychillgoldeneye"
       );
-      expect(myFind(objArr, findCBGenerator(objB))).to.equal(objB);
+      expect(fi.myFind(objArr, findCBGenerator(objB))).to.equal(objB);
     });
 
     it("does not traverse the whole array if the value is found early", function () {
       const spy = chai.spy(findCBGenerator(0));
-      myFind(intArr, spy);
+      fi.myFind(intArr, spy);
       expect(spy).to.have.been.called.exactly(3);
     });
 
     it("returns undefined if the value is not present", function () {
-      expect(myFind(intArr, findCBGenerator(7))).to.equal(undefined);
-      expect(myFind(strArr, findCBGenerator("maxwellisbestmax"))).to.equal(
+      expect(fi.myFind(intArr, findCBGenerator(7))).to.equal(undefined);
+      expect(fi.myFind(strArr, findCBGenerator("maxwellisbestmax"))).to.equal(
         undefined
       );
-      expect(myFind(objArr, findCBGenerator({ c: "c" }))).to.equal(undefined);
+      expect(fi.myFind(objArr, findCBGenerator({ c: "c" }))).to.equal(undefined);
     });
   });
 
@@ -137,12 +137,12 @@ describe("index.js", function () {
     }
 
     it("correctly filters for values that the callback evaluates as true", function () {
-      const greaterThan10 = myFilter(testArr, excluder);
+      const greaterThan10 = fi.myFilter(testArr, excluder);
       expect(arraysEqual(greaterThan10, [11, 12, 17, 100])).to.equal(true);
     });
 
     it("correctly returns an empty array if no matching values are found", function () {
-      const greaterThan10 = myFilter(testObj, excluder);
+      const greaterThan10 = fi.myFilter(testObj, excluder);
       expect(greaterThan10.length).to.equal(0);
     });
   });
@@ -152,11 +152,11 @@ describe("index.js", function () {
     const testObj = Object.assign({}, unmodifiedTestObj);
 
     it("correctly returns the size of the collection when an array is passed", function () {
-      expect(mySize(testArr)).to.equal(testArr.length);
+      expect(fi.mySize(testArr)).to.equal(testArr.length);
     });
 
     it("correctly returns the size of the collection (amount of keys) when an object is passed", function () {
-      expect(mySize(testObj)).to.equal(Object.keys(testObj).length);
+      expect(fi.mySize(testObj)).to.equal(Object.keys(testObj).length);
     });
   });
 
@@ -164,11 +164,11 @@ describe("index.js", function () {
     const testArr = unmodifiedTestArr.slice();
 
     it("returns the first element of the collection", function () {
-      expect(myFirst(testArr)).to.equal(1);
+      expect(fi.myFirst(testArr)).to.equal(1);
     });
 
     it("returns the first n elements of the collection when the second optional argument (n) is provided", function () {
-      expect(arraysEqual(myFirst(testArr, 3), [1, 2, 3])).to.equal(true);
+      expect(arraysEqual(fi.myFirst(testArr, 3), [1, 2, 3])).to.equal(true);
     });
   });
 
@@ -176,76 +176,76 @@ describe("index.js", function () {
     const testArr = unmodifiedTestArr.slice();
 
     it("returns the last element of the collection", function () {
-      expect(myLast(testArr)).to.equal(4);
+      expect(fi.myLast(testArr)).to.equal(4);
     });
 
     it("returns the last n elements of the collection when the second optional argument (n) is provided", function () {
-      expect(arraysEqual(myLast(testArr, 3), [2, 3, 4])).to.equal(true);
+      expect(arraysEqual(fi.myLast(testArr, 3), [2, 3, 4])).to.equal(true);
     });
   });
 
-  // describe('mySortBy', function () {
-  //   const unsortedIntArr = [3, 8, 5, 1, 9, 11, 8]
-  //   const unsortedStringArr = ["maru", "choux", "doge", "coconut"]
-  //   const unsortedObjArr = [
-  //     {name: "dennis", age: 29},
-  //     {name: "dee", age: 40},
-  //     {name: "mac", age: 34},
-  //     {name: "charlie", age: 32},
-  //     {name: "frank", age: 72}
-  //   ]
-  //   const controlSortedObjArr = [
-  //     {name: "dennis", age: 29},
-  //     {name: "charlie", age: 32},
-  //     {name: "mac", age: 34},
-  //     {name: "dee", age: 40},
-  //     {name: "frank", age: 72}
-  //   ]
+  describe('mySortBy', function () {
+    const unsortedIntArr = [3, 8, 5, 1, 9, 11, 8]
+    const unsortedStringArr = ["maru", "choux", "doge", "coconut"]
+    const unsortedObjArr = [
+      {name: "dennis", age: 29},
+      {name: "dee", age: 40},
+      {name: "mac", age: 34},
+      {name: "charlie", age: 32},
+      {name: "frank", age: 72}
+    ]
+    const controlSortedObjArr = [
+      {name: "dennis", age: 29},
+      {name: "charlie", age: 32},
+      {name: "mac", age: 34},
+      {name: "dee", age: 40},
+      {name: "frank", age: 72}
+    ]
 
-  //   function sortArrFunction(val) { return val }
-  //   function sortIntsBySin(val)   { return Math.sin(val) }
-  //   function sortObjFunction(obj) { return obj.age }
+    function sortArrFunction(val) { return val }
+    function sortIntsBySin(val)   { return Math.sin(val) }
+    function sortObjFunction(obj) { return obj.age }
 
-  //   it('correctly sorts arrays of integers and arrays of strings', function () {
-  //     expect(arraysEqual(mySortBy(unsortedIntArr, sortArrFunction), [1, 3, 5, 8, 8, 9, 11])).to.equal(true)
-  //     expect(arraysEqual(mySortBy(unsortedStringArr, sortArrFunction), ["choux", "coconut", "doge", "maru"])).to.equal(true)
-  //   })
+    it('correctly sorts arrays of integers and arrays of strings', function () {
+      expect(arraysEqual(fi.mySortBy(unsortedIntArr, sortArrFunction), [1, 3, 5, 8, 8, 9, 11])).to.equal(true)
+      expect(arraysEqual(fi.mySortBy(unsortedStringArr, sortArrFunction), ["choux", "coconut", "doge", "maru"])).to.equal(true)
+    })
 
-  //   it('does not modify the original arrays', function () {
-  //     mySortBy(unsortedIntArr, sortArrFunction)
-  //     mySortBy(unsortedStringArr, sortArrFunction)
-  //     expect(arraysEqual(unsortedIntArr, [3, 8, 5, 1, 9, 11, 8])).to.equal(true)
-  //     expect(arraysEqual(unsortedStringArr, ["maru", "choux", "doge", "coconut"])).to.equal(true)
-  //   })
+    it('does not modify the original arrays', function () {
+      fi.mySortBy(unsortedIntArr, sortArrFunction)
+      fi.mySortBy(unsortedStringArr, sortArrFunction)
+      expect(arraysEqual(unsortedIntArr, [3, 8, 5, 1, 9, 11, 8])).to.equal(true)
+      expect(arraysEqual(unsortedStringArr, ["maru", "choux", "doge", "coconut"])).to.equal(true)
+    })
 
-  //   it('correctly sorts arrays of integers with non-standard sort', function () {
-  //     expect(arraysEqual(mySortBy([1, 2, 3, 4, 5, 6], sortIntsBySin), [5, 4, 6, 3, 1, 2])).to.equal(true)
-  //   })
+    it('correctly sorts arrays of integers with non-standard sort', function () {
+      expect(arraysEqual(fi.mySortBy([1, 2, 3, 4, 5, 6], sortIntsBySin), [5, 4, 6, 3, 1, 2])).to.equal(true)
+    })
 
-  // })
+  })
 
-  // describe('myFlatten', function () {
+  describe('myFlatten', function () {
 
-  //   it('correctly flattens a ludicrously nested array', function () {
-  //     const nestedArr = [1, [2, 3], [[4, 5], 6, [7, [8, 9]]]]
-  //     const flatArr = myFlatten(nestedArr)
-  //     expect(arraysEqual(flatArr, [1, 2, 3, 4, 5, 6, 7, 8, 9])).to.equal(true)
-  //   })
+    it('correctly flattens a ludicrously nested array', function () {
+      const nestedArr = [1, [2, 3], [[4, 5], 6, [7, [8, 9]]]]
+      const flatArr = fi.myFlatten(nestedArr)
+      expect(arraysEqual(flatArr, [1, 2, 3, 4, 5, 6, 7, 8, 9])).to.equal(true)
+    })
 
-  //   it('correctly flattens a single level when a second argument of "true" is passed', function () {
-  //     const nestedArr = [1, [2, 3], [[4, 5], 6, [7, [8, 9]]]]
-  //     const flatArr = myFlatten(nestedArr, true)
-  //     expect(arraysEqual(flatArr, [1, 2, 3, [4, 5], 6, [7, [8, 9]]])).to.equal(true)
-  //   })
+    it('correctly flattens a single level when a second argument of "true" is passed', function () {
+      const nestedArr = [1, [2, 3], [[4, 5], 6, [7, [8, 9]]]]
+      const flatArr = fi.myFlatten(nestedArr, true)
+      expect(arraysEqual(flatArr, [1, 2, 3, [4, 5], 6, [7, [8, 9]]])).to.equal(true)
+    })
 
-  // })
+  })
 
   describe("myKeys", function () {
     const testObj = Object.assign({}, unmodifiedTestObj);
 
     it("retrieves all the names of the object's own enumerable properties", function () {
       expect(
-        arraysEqual(myKeys(testObj), Object.keys(unmodifiedTestObj))
+        arraysEqual(fi.myKeys(testObj), Object.keys(unmodifiedTestObj))
       ).to.equal(true);
     });
 
@@ -259,7 +259,7 @@ describe("index.js", function () {
 
     it("retrieves all the values of the object's own properties", function () {
       expect(
-        arraysEqual(myValues(testObj), Object.values(unmodifiedTestObj))
+        arraysEqual(fi.myValues(testObj), Object.values(unmodifiedTestObj))
       ).to.equal(true);
     });
 
